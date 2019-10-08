@@ -61,7 +61,12 @@ curl_close($ch);
 if(strpos($result, 'Invalid login, please try again') !== false) {
   echo "Invalid login or password";
 } else {
-  echo get_string_between($result, '<span class="userbutton"><span class="usertext">', '</span><span class="avatars">');
+  $name = get_string_between($result, '<span class="userbutton"><span class="usertext">', '</span><span class="avatars">');
+  if (strlen($name) < 1) {
+    echo "Something went wrong!";
+  } else {
+    echo $name;
+  }
 }
 
  ?>

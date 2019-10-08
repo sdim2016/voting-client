@@ -15,48 +15,61 @@ function get_string_between($string, $start, $end){
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if(!empty($_POST["username"]) && !empty($_POST["password"])) {
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+      $username = $_POST["username"];
+      $password = $_POST["password"];
+      //Establish session with moodle:
+      $url1 = 'https://moodle.xamk.fi/?lang=en';
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL,$url1);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_COOKIEFILE, "shib-cookie");
+      curl_setopt($ch, CURLOPT_COOKIEJAR, "shib-cookie");
+      curl_setopt($ch, CURLOPT_COOKIESESSION, 1);
+      curl_setopt($ch, CURLOPT_COOKIE, session_name() . '=' . session_id());
 
-        $url1 = 'https://moodle.xamk.fi/';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$url1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+      //execute get
+      $server_output = curl_exec($ch);
 
-        echo $server_output;
+      //Obtain login token:
+      $logintoken = get_string_between($server_output, '<input type="hidden" name="logintoken" value="', '"/><input class="btn xamk-login-button"');
 
-        $logintoken = get_string_between($server_output, '<input type="hidden" name="logintoken" value="', '"/><input class="btn xamk-login-button"');
-        $url2 = "https://moodle.xamk.fi/login/index.php";
-        $ch = curl_init();
-        //The data you want to send via POST
-        $fields = array(
-            'username'      => $username,
-            'logintoken' => $logintoken,
-            'password'         => $password,
-            'login'     =>  'Вход'
-        );
+      //Build POST request for authentication
+      $url2 = "https://moodle.xamk.fi/login/index.php";
+      $fields = array(
+          'username'      => $username,
+          'logintoken' => $logintoken,
+          'password'         => $password,
+          'login'     =>  'Kirjaudu'
+      );
+      $fields_string = http_build_query($fields);
 
-        //url-ify the data for the POST
-        $fields_string = http_build_query($fields);
+      curl_setopt($ch,CURLOPT_URL, $url2);
+      curl_setopt($ch,CURLOPT_POST, true);
+      curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+      curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+      curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
 
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch,CURLOPT_URL, $url2);
-        curl_setopt($ch,CURLOPT_POST, true);
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+      //execute post
+      $result = curl_exec($ch);
 
-        //So that curl_exec returns the contents of the cURL; rather than echoing it
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+      curl_close($ch);
 
-        //execute post
-        $result = curl_exec($ch);
-
-        curl_close($ch);
-
-        echo $result;
-
-
+      if(strpos($result, 'Invalid login, please try again') !== false) {
+        header("Location: login.php?m=2");
+      } else {
+        $name = get_string_between($result, '<span class="userbutton"><span class="usertext">', '</span><span class="avatars">');
+        if (strlen($name) < 1) {
+          header("Location: login.php?m=3");
+        } else {
+            session_start();
+            $_SESSION["authenticated"] = 'true';
+            $_SESSION["username"] = $_POST["username"];
+            $_SESSION["name"] = $name;
+            header('Location: index.php');
+        }
+      }
 
         // if(($username == 'user' && $password == 'password') || ($username == 'karhu' && $password == 'karjala')) {
         //     session_start();
@@ -111,6 +124,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                       if ($message == '2') {
                                         echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
                                         Username or password is incorrect.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>';
+                                      }
+                                      if ($message == '3') {
+                                        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        Something went wrong.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>
