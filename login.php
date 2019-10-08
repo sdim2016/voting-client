@@ -8,13 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        if($username == 'user' && $password == 'password') {
+        if(($username == 'user' && $password == 'password') || ($username == 'karhu' && $password == 'karjala')) {
             session_start();
             $_SESSION["authenticated"] = 'true';
+            $_SESSION["username"] = $_POST["username"];
             header('Location: index.php');
         }
         else {
-            header('Location: login.php');
+            header("Location: login.php?m=2");
         }
 
     } else {
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Login - Brand</title>
+    <title>Login - Blockchain Voting App</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -47,6 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <div class="text-center">
                                         <h4 class="text-dark mb-4">Blockchain Voting App</h4>
                                     </div>
+                                    <?php if(!empty($_GET["m"])) {
+                                      $message = $_GET["m"];
+                                      if ($message == '1') {
+                                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        Successfully logged out.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>';
+                                      }
+                                      if ($message == '2') {
+                                        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        Username or password is incorrect.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>';
+                                      }
+                                    } ?>
                                     <form class="user" method="post">
                                         <div class="form-group"><input class="form-control form-control-user" type="text" name="username" placeholder="Username"></div>
                                         <div class="form-group"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password"></div>
