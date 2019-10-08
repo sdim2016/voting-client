@@ -2,21 +2,71 @@
 $username = null;
 $password = null;
 
+function get_string_between($string, $start, $end){
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0) return '';
+    $ini += strlen($start);
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if(!empty($_POST["username"]) && !empty($_POST["password"])) {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        if(($username == 'user' && $password == 'password') || ($username == 'karhu' && $password == 'karjala')) {
-            session_start();
-            $_SESSION["authenticated"] = 'true';
-            $_SESSION["username"] = $_POST["username"];
-            header('Location: index.php');
-        }
-        else {
-            header("Location: login.php?m=2");
-        }
+        $url1 = 'https://moodle.xamk.fi/';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $server_output = curl_exec($ch);
+        curl_close($ch);
+
+        echo $server_output;
+
+        $logintoken = get_string_between($server_output, '<input type="hidden" name="logintoken" value="', '"/><input class="btn xamk-login-button"');
+        $url2 = "https://moodle.xamk.fi/login/index.php";
+        $ch = curl_init();
+        //The data you want to send via POST
+        $fields = array(
+            'username'      => $username,
+            'logintoken' => $logintoken,
+            'password'         => $password,
+            'login'     =>  'Вход'
+        );
+
+        //url-ify the data for the POST
+        $fields_string = http_build_query($fields);
+
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch,CURLOPT_URL, $url2);
+        curl_setopt($ch,CURLOPT_POST, true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+        //So that curl_exec returns the contents of the cURL; rather than echoing it
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+
+        //execute post
+        $result = curl_exec($ch);
+
+        curl_close($ch);
+
+        echo $result;
+
+
+
+        // if(($username == 'user' && $password == 'password') || ($username == 'karhu' && $password == 'karjala')) {
+        //     session_start();
+        //     $_SESSION["authenticated"] = 'true';
+        //     $_SESSION["username"] = $_POST["username"];
+        //     header('Location: index.php');
+        // }
+        // else {
+        //     header("Location: login.php?m=2");
+        // }
 
     } else {
         header('Location: login.php');
