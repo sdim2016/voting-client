@@ -6,7 +6,7 @@ require_once('authenticate.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title><?php echo $_SESSION["name"]; ?> - Blockchain Voting App</title>
+    <title><?php echo $_SESSION["name"]; ?> Profile - Blockchain Voting App</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -22,8 +22,8 @@ require_once('authenticate.php');
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="index.php"><i class="fas fa-window-maximize"></i><span>Main Page</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="profile.php"><i class="fas fa-user-circle"></i><span>My Profile</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i class="fas fa-window-maximize"></i><span>Main Page</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="profile.php"><i class="fas fa-user-circle"></i><span>My Profile</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -126,7 +126,7 @@ require_once('authenticate.php');
                             <li class="nav-item dropdown no-arrow" role="presentation">
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i><span class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo $_SESSION["name"]; ?></span></a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in"
-                                        role="menu"><a class="dropdown-item" role="presentation" href="profile.php"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
+                                        role="menu"><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
                                         <a
                                             class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
                                             <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="logout.php"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>
@@ -136,9 +136,31 @@ require_once('authenticate.php');
                     </div>
                 </nav>
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-1">Blockchain Voting Application</h3>
-                    <h4 class="text-dark mb-1">Welcome, <?php echo $_SESSION["name"]; ?>!</h3>
-                      <p>I am planning to put the main content of my application here.</p>
+                    <h3 class="text-dark mb-4">Profile</h3>
+                    <div class="card shadow mb-5">
+                      <div class="card-header py-3">
+                        <p class="text-primary m-0 font-weight-bold">User information</p>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <form>
+                              <div class="form-group">
+                                <label for="username">Login</label>
+                                <input class="form-control" type="text" name="username" value="<?php echo $_SESSION["username"]; ?>">
+                              </div>
+                              <div class="form-group">
+                                <label for="name">Name</label>
+                                <input class="form-control" type="text" name="name" value="<?php echo $_SESSION["name"]; ?>">
+                              </div>
+
+                            </form>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
                 </div>
             </div>
             <footer class="bg-white sticky-footer">
