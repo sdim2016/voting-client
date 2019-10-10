@@ -3,18 +3,11 @@ require_once 'authenticate.php';
 $page = 'candidates';
 include 'inc/header.php';
 
-$num1 = 10;
-$num2 = 20;
-$num3 = 30;
-
-//$sum = $num1 + $num2 + $num3;
-
 $votesarr = array("Obama" => 10, "Trump" => 20, "Putin" => 30, "Medvedev" => 6, "Johnson" => 18);
 $sum = 0;
 foreach ($votesarr as $candidate => $votes) {
 $sum += $votes;
 }
-
 
  ?>
 
@@ -30,6 +23,7 @@ $sum += $votes;
     </div>
     <div class="card-body">
       <div class="row">
+        <div class="table-responsive">
           <table class="table">
   <thead>
     <tr>
@@ -56,7 +50,7 @@ $sum += $votes;
 
   </tbody>
 </table>
-
+</div>
       </div>
 
     </div>
