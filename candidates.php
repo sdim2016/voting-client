@@ -7,9 +7,13 @@ $num1 = 10;
 $num2 = 20;
 $num3 = 30;
 
-$sum = $num1 + $num2 + $num3;
+//$sum = $num1 + $num2 + $num3;
 
-$votes = array("Obama" => 10, "Trump" => 20, "Putin" => 30);
+$votesarr = array("Obama" => 10, "Trump" => 20, "Putin" => 30, "Medvedev" => 6, "Johnson" => 18);
+$sum = 0;
+foreach ($votesarr as $candidate => $votes) {
+$sum += $votes;
+}
 
 
  ?>
@@ -36,30 +40,20 @@ $votes = array("Obama" => 10, "Trump" => 20, "Putin" => 30);
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Obama</td>
-      <td><?php echo $num1; ?></td>
-      <td><div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo round($num1/$sum*100); ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo round($num1/$sum*100); ?>%"><?php echo round($num1/$sum*100); ?>%</div>
-</div></td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Trump</td>
-      <td><?php echo $num2; ?></td>
-      <td><div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo round($num2/$sum*100); ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo round($num2/$sum*100); ?>%"><?php echo round($num2/$sum*100); ?>%</div>
-</div></td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Putin</td>
-      <td><?php echo $num3; ?></td>
-      <td> <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo round($num3/$sum*100); ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo round($num3/$sum*100); ?>%"><?php echo round($num3/$sum*100); ?>%</div>
-      </div></td>
-    </tr>
+    <?php
+        $num = 1;
+        foreach ($votesarr as $candidate => $votes) {
+          echo "<tr>";
+          echo '<th scope="row">'.$num.'</th>';
+          echo '<td>'.$candidate.'</td>';
+          echo '<td>'.$votes.'</td>';
+          echo '<td><div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="'.round($votes/$sum*100).'" aria-valuemin="0" aria-valuemax="100" style="width:'.round($votes/$sum*100).'%">'.round($votes/$sum*100).'%</div>
+    </div></td>';
+          $num++;
+        }
+     ?>
+
   </tbody>
 </table>
 
@@ -78,12 +72,37 @@ $votes = array("Obama" => 10, "Trump" => 20, "Putin" => 30);
   </div>
   <div class="card-body text-center">
         <div class="chart-area">
-            <canvas data-bs-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Obama&quot;,&quot;Trump&quot;,&quot;Putin&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#1cc88a&quot;,&quot;#36b9cc&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;<?php echo $num1; ?>&quot;,&quot;<?php echo $num2; ?>&quot;,&quot;<?php echo $num3; ?>&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}" width="668" height="352" class="chartjs-render-monitor" style="display: block; width: 608px; height: 320px;"></canvas>
-        </div>
-        <div class="text-center small mt-4">
-            <span class="mr-2"><i class="fas fa-circle text-primary"></i> Putin</span>
-            <span class="mr-2"><i class="fas fa-circle text-success"></i> Trump</span>
-            <span class="mr-2"><i class="fas fa-circle text-info"></i> Obama</span>
+            <canvas data-bs-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[<?php
+              $cnds = '';
+              foreach ($votesarr as $candidate => $votes) {
+                $cnds = $cnds.'&quot;'.$candidate.'&quot,';
+              }
+              $cnds = substr($cnds, 0, -1);
+              echo $cnds;
+               ?>],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[<?php
+                 $arr_length = count($votesarr);
+                 $colors = '';
+                 for ($i=0; $i < $arr_length; $i++) {
+                   $colors = $colors.'&quot;'.sprintf('#%06X', mt_rand(0, 0xFFFFFF)).'&quot;,';
+                 }
+                 $colors = substr($colors, 0, -1);
+                 echo $colors;
+                 ?>],&quot;borderColor&quot;:[<?php
+                 //$arr_length = count($votesarr);
+                 $fff = '';
+                 for ($i=0; $i < $arr_length; $i++) {
+                   $fff = $fff.'&quot;#ffffff&quot;,';
+                 }
+                 $fff = substr($fff, 0, -1);
+                 echo $fff;
+                 ?>],&quot;data&quot;:[<?php
+                 $vts = '';
+                 foreach ($votesarr as $candidate => $votes) {
+                   $vts = $vts.'&quot;'.$votes.'&quot,';
+                 }
+                 $vts = substr($vts, 0, -1);
+                 echo $vts;
+                  ?>]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:true, &quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{}}}" width="668" height="352" class="chartjs-render-monitor" style="display: block; width: 608px; height: 320px;"></canvas>
         </div>
 
   </div>
