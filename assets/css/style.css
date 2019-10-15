@@ -1,13 +1,11 @@
 /* Styles go here */
-.custom-legend ul {column-count: 2;column-gap: 10px; padding-inline-start: 10%;}
+.custom-legend ul {column-count: 2;column-gap: 10px; padding-inline-start: 10%; padding-top: 10px;}
 .custom-legend-2 ul {column-count: 1;column-gap: 10px;}
 .custom-legend  li {
     list-style: none;
-    font: 700 12px 'Roboto';
     white-space: nowrap;
     padding: 6px;
     cursor: pointer;
-    color: #b3b3b3;
 }
 .custom-legend li.striked {text-decoration: line-through;}
 .custom-legend li.striked span {background: #b3b3b3}
