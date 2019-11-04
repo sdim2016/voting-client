@@ -21,9 +21,9 @@
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item" role="presentation"><a class="nav-link <?php if ($page == 'index') { echo "active";} ?>" href="index.php"><i class="fas fa-window-maximize"></i><span>Main Page</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link <?php if ($page == 'profile') { echo "active";} ?>" href="profile.php"><i class="fas fa-user-circle"></i><span>My Profile</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link <?php if ($page == 'candidates') { echo "active";} ?>" href="candidates.php"><i class="fas fa-user-circle"></i><span>Candidates</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link <?php if ($page == 'vote') { echo "active";} ?>" href="vote.php"><i class="fas fa-user-circle"></i><span>Vote</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link <?php if ($page == 'profile') { echo "active";} ?>" href="profile.php"><i class="fas fa-user"></i><span>My Profile</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link <?php if ($page == 'candidates') { echo "active";} ?>" href="candidates.php"><i class="fas fa-users"></i><span>Candidates</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link <?php if ($page == 'vote') { echo "active";} ?>" href="vote.php"><i class="fas fa-user-check"></i><span>Vote</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
