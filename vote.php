@@ -1,6 +1,7 @@
 <?php
 require_once 'authenticate.php';
 $page = 'vote';
+$votefor = '';
 
 //$candidatesarr = array("Obama", "Trump", "Putin", "Medvedev", "Johnson", "Zelensky");
 
@@ -88,7 +89,7 @@ include 'inc/header.php';
      <div class="row">
        <div class="col-md-8">
          <?php
-         if ($votefor and !$valid) {
+         if (!empty($votefor) and !$valid) {
              echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
              No such candidate!
              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -112,6 +113,7 @@ include 'inc/header.php';
                  echo "<p>You have already voted. <a href=\"candidates.php\">See current results.</a></p>";
                }
                 ?>
+                <div class="table-responsive">
                <table class="table">
        <thead>
          <tr>
@@ -158,6 +160,7 @@ include 'inc/header.php';
 
        </tbody>
      </table>
+   </div>
 
             </div>
           </div>
