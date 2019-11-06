@@ -9,6 +9,7 @@ include('inc/header.php');
                     <hr />
                     <h4 class="text-dark mb-1">Welcome, <?php echo $_SESSION["name"]; ?>!</h3>
                       <p>I am planning to put the main content of my application here.</p>
+                      <p><?php echo $_SESSION["test"]; ?></p>
                 </div>
 
 <?php include('inc/footer.php'); ?>

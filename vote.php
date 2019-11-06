@@ -4,7 +4,32 @@ $page = 'vote';
 include 'inc/header.php';
 
 $candidatesarr = array("Obama", "Trump", "Putin", "Medvedev", "Johnson", "Zelensky");
-$voted = false;
+
+//Obtaining our voter data from the blockchain
+// Get cURL resource
+$curl = curl_init();
+// Set some options - we are passing in a useragent too here
+curl_setopt_array($curl, [
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_URL => 'http://54.166.246.251:3000/api/Voter?filter={"where":{"email":"'.$_SESSION["username"].'"}}',
+]);
+// Send the request & save response to $resp
+$resp = curl_exec($curl);
+// Close request to clear up some resources
+curl_close($curl);
+//Decoded result:
+$json = json_decode($resp);
+if (!$json) {
+  $_SESSION["test"]="You are not in the blockchain!";
+} else {
+  $voted = var_export($json[0]->{'voted'}, true);
+  $_SESSION["test"]="You are in the blockchain. Voted: ".$voted;
+  if ($voted == 'true') {
+    $voted_bool = true;
+  } else {
+    $voted_bool = false;
+  }
+}
  ?>
 
  <div class="container-fluid">
@@ -18,7 +43,7 @@ $voted = false;
            </div>
            <div class="card-body">
              <div class="row">
-               <?php if ($voted) {
+               <?php if ($voted_bool) {
                  echo "<p>You have already voted. <a href=\"candidates.php\">See current results.</a></p>";
                } ?>
                <table class="table">
@@ -36,7 +61,7 @@ $voted = false;
                echo "<tr>";
                echo '<th scope="row">'.$num.'</th>';
                echo '<td>'.$candidate.'</td>';
-               if ($voted) {
+               if ($voted_bool) {
                  echo '<td class="text-center"><button type="button" class="btn btn-primary btn-sm" disabled>Vote for '.$candidate.'!</button></td>';
                } else {
                echo '<td class="text-center"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#voteModal'.$num.'">Vote for '.$candidate.'!</button></td>';

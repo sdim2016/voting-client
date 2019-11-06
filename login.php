@@ -67,6 +67,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION["authenticated"] = 'true';
             $_SESSION["username"] = $_POST["username"];
             $_SESSION["name"] = $name;
+
+            //Obtaining our voter data from the blockchain
+            // Get cURL resource
+            $curl = curl_init();
+            // Set some options - we are passing in a useragent too here
+            curl_setopt_array($curl, [
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_URL => 'http://54.166.246.251:3000/api/Voter?filter={"where":{"email":"'.$_SESSION["username"].'"}}',
+            ]);
+            // Send the request & save response to $resp
+            $resp = curl_exec($curl);
+            // Close request to clear up some resources
+            curl_close($curl);
+            //Decoded result:
+            $json = json_decode($resp);
+            if (!$json) {
+              $_SESSION["test"]="You are not in the blockchain!";
+            } else {
+              $voted = var_export($json[0]->{'voted'}, true);
+              $_SESSION["test"]="You are in the blockchain. Voted: ".$voted;
+
+
+            }
+
+
             header('Location: index.php');
         }
       }
