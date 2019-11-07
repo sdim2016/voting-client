@@ -1,6 +1,7 @@
 <?php
 $username = null;
 $password = null;
+include 'config.php';
 
 function get_string_between($string, $start, $end){
     $string = ' ' . $string;
@@ -17,6 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(!empty($_POST["username"]) && !empty($_POST["password"])) {
       $username = $_POST["username"];
       $password = $_POST["password"];
+      $test_login = false;
+      if (array_key_exists($username, $accounts)) {
+        $pass_c = $accounts[$username];
+        $_SESSION["testt"] = $pass_c;
+        if ($password == $pass_c) {
+          $test_login = true;
+        }
+      }
+      if (!$test_login) {
       //Establish session with moodle:
       $url1 = 'https://moodle.xamk.fi/?lang=en';
       $ch = curl_init();
@@ -55,11 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $result = curl_exec($ch);
 
       curl_close($ch);
-
-      if(strpos($result, 'Invalid login, please try again') !== false) {
+    }
+      if(strpos($result, 'Invalid login, please try again') !== false && !$test_login) {
         header("Location: login.php?m=2");
       } else {
-        $name = get_string_between($result, '<span class="userbutton"><span class="usertext">', '</span><span class="avatars">');
+        if (!$test_login){
+        $name = get_string_between($result, '<span class="userbutton"><span class="usertext">', '</span><span class="avatars">');}
+        else{ $name = "Test User"; }
         if (strlen($name) < 1) {
           header("Location: login.php?m=3");
         } else {
