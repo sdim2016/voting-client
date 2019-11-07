@@ -206,8 +206,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <p class="text-center">You can login to my Blockchain Voting application using your XAMK account.</p>
                                         <hr>
                                     </form>
-                                    <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>
-                                    <div class="text-center"><a class="small" href="register.html">Create an Account!</a></div>
+                                    <div class="text-center"><a class="small" href="https://moodle.xamk.fi/mod/page/view.php?id=706848" target="_blank">Forgot Password?</a></div>
+                                  <!--  <div class="text-center"><a class="small" href="https://moodle.xamk.fi">Create an Account!</a></div> -->
                                 </div>
                             </div>
                         </div>
