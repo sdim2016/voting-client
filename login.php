@@ -83,7 +83,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Decoded result:
             $json = json_decode($resp);
             if (!$json) {
-              $_SESSION["test"]="You are not in the blockchain!";
+              $post = [
+                        'email' => $_SESSION['username'],
+                        'voted' => "false",
+                    ];
+              $headers = [
+                'Content-Type: application/json',
+                'Accept: application/json'
+              ];
+
+              $ch = curl_init('http://54.166.246.251:3000/api/Voter');
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch, CURLOPT_POST, 1);
+              curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
+              curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+              // execute!
+              $response = curl_exec($ch);
+              // close the connection, release resources used
+              curl_close($ch);
+
+              $_SESSION["test"]="You have logged in for the first time, we've added you to the blockchain!";
             } else {
               $voted = var_export($json[0]->{'voted'}, true);
               $_SESSION["test"]="You are in the blockchain. Voted: ".$voted;
