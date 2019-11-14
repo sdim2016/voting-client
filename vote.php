@@ -119,7 +119,7 @@ include 'inc/header.php';
          <tr>
            <th scope="col">#</th>
            <th scope="col">Candidate name</th>
-           <th scope="col">Vote</th>
+           <th scope="col" align="center">Vote</th>
          </tr>
        </thead>
        <tbody>
