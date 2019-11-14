@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Set some options - we are passing in a useragent too here
             curl_setopt_array($curl, [
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => 'http://54.166.246.251:3000/api/Voter?filter={"where":{"email":"'.$_SESSION["username"].'"}}',
+                CURLOPT_URL => 'http://54.166.246.251:3000/api/Voter?filter={"where":{"username":"'.$_SESSION["username"].'"}}',
             ]);
             // Send the request & save response to $resp
             $resp = curl_exec($curl);
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $json = json_decode($resp);
             if (!$json) {
               $post = [
-                        'email' => $_SESSION['username'],
+                        'username' => $_SESSION['username'],
                         'voted' => "false",
                     ];
               $headers = [

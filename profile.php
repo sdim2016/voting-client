@@ -4,7 +4,7 @@ $page = 'profile';
 
 if (!empty($_POST['username']) and $_SESSION['username'] == 'odmsl002') {
   $data = [
-    'email' => $_POST['username'],
+    'username' => $_POST['username'],
     'voted' => 'false'
   ];
   $ch = curl_init('http://54.166.246.251:3000/api/Voter/'.$_POST['username']);
