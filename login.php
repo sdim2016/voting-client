@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             }
 
-
+            unlink('shib-cookie');
             header('Location: index.php');
         }
       }
