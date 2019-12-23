@@ -1,0 +1,392 @@
+    1  sudo apt-get install tomcat8 tomcat8-admin
+    2  sudo nano /etc/profile
+    3  source /etc/profile
+    4  env | grep -i cata
+    5  env | grep -i java
+    6  sudo nano /var/lib/tomcat8/conf/tomcat-users.xml 
+    7  sudo nano /etc/default/tomcat8 
+    8  hostname
+    9  hostname -f
+   10  sudo service tomcat8 restart
+   11  mkdir Downloads
+   12  cd Downloads/
+   13  curl -O https://shibboleth.net/downloads/identity-provider/latest/shibboleth-identity-provider-3.4.5.tar.gz
+   14  ls
+   15  tar zxvf shibboleth-identity-provider-3.4.5.tar.gz 
+   16  ls
+   17  cd shibboleth-identity-provider-3.4.5/
+   18  ls
+   19  hostname ec2-54-172-89-155.compute-1.amazonaws.com
+   20  sudo hostname ec2-54-172-89-155.compute-1.amazonaws.com
+   21  ls
+   22  hostname
+   23  hostname -f
+   24  sudo -E bin/install.sh
+   25  sudo chown -R tomcat8 /opt/shibboleth-idp
+   26  cd /opt/shibboleth-idp/
+   27  ls -ll
+   28  cd conf
+   29  ls
+   30  sudo nano access-control.xml 
+   31  sudo nano $CATALINA_HOME/conf/Catalina/localhost/idp.xml
+   32  cd /opt/shibboleth-idp/edit-webapp/WEB-INF/lib
+   33  sudo curl -O https://build.shibboleth.net/nexus/service/local/repositories/thirdparty/content/javax/servlet/jstl/1.2/jstl-1.2.jar
+   34  sudo chown tomcat8 jstl-1.2.jar
+   35  cd /opt/shibboleth-idp
+   36  sudo -E bin/build.sh
+   37  cd ~/Downloads/
+   38  curl -O http://www.nic.funet.fi/pub/mirrors/apache.org//directory/apacheds/dist/2.0.0.AM25/apacheds-2.0.0.AM25-64bit.bin
+   39  ls
+   40  chmod +x apacheds-2.0.0.AM25-64bit.bin 
+   41  sudo ./apacheds-2.0.0-M23-64bit.bin
+   42  sudo ./apacheds-2.0.0.AM25-64bit.bin 
+   43  sudo update-rc.d apacheds-2.0.0.AM25-default defaults
+   44  sudo /etc/init.d/apacheds-2.0.0.AM25-default 
+   45  sudo /etc/init.d/apacheds-2.0.0.AM25-default start
+   46  nc -v localhost 10389 -w 0
+   47  nc
+   48  nc localhost 10389
+   49  nc -v localhost 10389 -w 0
+   50  netstat
+   51  sudo /etc/init.d/apacheds-2.0.0.AM25-default stop
+   52  nc -v localhost 10389 -w 0
+   53  sudo /etc/init.d/apacheds-2.0.0.AM25-default start
+   54  sudo /etc/init.d/apacheds-2.0.0.AM25-default restart
+   55  cd /opt/shibboleth-idp/
+   56  ls
+   57  sudo nano ldap.properties
+   58  sudo nano conf/ldap.properties
+   59  sudo nano conf/authn/password-authn-config.xml
+   60  sudo mv conf/attribute-resolver.xml conf/attribute-resolver-default.xml
+   61  sudo chown tomcat8 conf/attribute-resolver.xml
+   62  sudo chown tomcat8 conf/attribute-resolver-default.xml
+   63  sudo cp conf/attribute-resolver-ldap.xml conf/attribute-resolver.xml
+   64  sudo chown tomcat8 conf/attribute-resolver.xml
+   65  sudo nano conf/attribute-resolver.xml 
+   66  sudo nano conf/attribute-filter.xml 
+   67  ls
+   68  sudo bin/aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   69  ды
+   70  ld
+   71  ls
+   72  logout
+   73  cd /opt/shibboleth-idp/
+   74  sudo bin/aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   75  cd /usr/lib/jvm
+   76  ls
+   77  sudo vim /etc/profile
+   78  source /etc/profile
+   79  cd /opt/shibboleth-idp/
+   80  sudo bin/aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   81  sudo vim /etc/profile
+   82  export JAVA_HOME="java-8-openjdk-amd64"
+   83  sudo bin/aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   84  echo $JAVA_HOME
+   85  sudo bin/aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   86  bin/aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   87  cd bin
+   88  ./aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   89  sudo ./aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   90  cd /usr/lib/jvm
+   91  ls
+   92  ls -ll
+   93  echo $JAVA_HOME
+   94  export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+   95  echo $JAVA_HOME
+   96  cd /opt/shibboleth-idp/
+   97  sudo bin/aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+   98  cd bin
+   99  ./aacli.sh --url https://yourfullyqualifiedhostname/idp --principal yourtestuser --requester anythingyoulike
+  100  ./aacli.sh --url http://localhost/idp --principal testuser --requester anythingyoulike
+  101  curl http://localhost/idp/profile/admin/resolvertest?requester=anythingyoulike&principal=testuser
+  102  curl http://localhost:8080/idp/profile/admin/resolvertest?requester=anythingyoulike&principal=testuser
+  103  ./aacli.sh --url https://localhost/idp --principal testuser --requester anythingyoulike
+  104  sudo keytool -import -trustcacerts -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt -alias lan-self-cert -file /etc/ssl/certs/shib-idp.lan.crt
+  105  ./aacli.sh --url https://localhost/idp --principal testuser --requester anythingyoulike
+  106  ./aacli.sh --url https://localhost:8080/idp --principal testuser --requester anythingyoulike
+  107  ./aacli.sh --url http://localhost:8080/idp --principal testuser --requester anythingyoulike
+  108  cd /etc/shibboleth/
+  109  ls
+  110  cp shibboleth2.xml xamk_shibboleth2.xml
+  111  sudo cp shibboleth2.xml xamk_shibboleth2.xml
+  112  sudo nano shibboleth2.xml 
+  113  cudo cp /opt/shibboleth-idp/metadata/idp-metadata.xml /etc/shibboleth/myidp.xml
+  114  sudo cp /opt/shibboleth-idp/metadata/idp-metadata.xml /etc/shibboleth/myidp.xml
+  115  ls
+  116  sudo service shibd restart
+  117  sudo nano shibboleth2.xml 
+  118  sudo nano myidp.xml 
+  119  sudo nano shibboleth2.xml 
+  120  sudo nano myidp.xml 
+  121  sudo service shibd restart
+  122  sudo nano shibboleth2.xml 
+  123  cat /var/log/shibboleth/shibd.log 
+  124  sudo nano myidp.xml 
+  125  sudo nano shibboleth2.xml 
+  126  sudo service shibd restart
+  127  cat /var/log/shibboleth/shibd.log 
+  128  sudo nano myidp.xml 
+  129  sudo service shibd restart
+  130  sudo nano myidp.xml 
+  131  sudo nano shibboleth2.xml 
+  132  sudo service shibd restart
+  133  sudo nano myidp.xml 
+  134  sudo service shibd restart
+  135  sudo certbot --apache
+  136  ls -ll
+  137  sudo apt-get install php7
+  138  sudo apt-get install php
+  139  sudo apt-get install -y php-{bcmath,bz2,intl,gd,mbstring,mcrypt,mysql,zip} && sudo apt-get install libapache2-mod-php -y
+  140  systemctl restart apache2.service
+  141  sudo systemctl restart apache2.service
+  142  cd /var/www
+  143  ls
+  144  cd html
+  145  ls
+  146  git clone https://github.com/sdim2016/voting-client.git
+  147  sudo git clone https://github.com/sdim2016/voting-client.git
+  148  ks
+  149  ls
+  150  cd voting-client/
+  151  ls
+  152  mv * ..
+  153  sudo mv * ../..
+  154  ls
+  155  cd ..
+  156  ls
+  157  cd ..
+  158  ls
+  159  mv index.php html
+  160  sudo mv index.php html
+  161  sudo mv login.php html
+  162  sudo mv authenticate.php html
+  163  sudo mv assets/ html
+  164  ls
+  165  cd html/
+  166  ls
+  167  sudo cp index.html index_old.html
+  168  ls
+  169  sudo rm -rf index.html
+  170  ls ..
+  171  ls -ll
+  172  cd ..
+  173  chmod --help
+  174  sudo chmod 777 html
+  175  ls -ll
+  176  cd html
+  177  sudo nano login.php 
+  178  cd voting-client/
+  179  ls
+  180  cd ..
+  181  sudo git clone https://github.com/sdim2016/voting-client.git
+  182  rm -rf voting-client/
+  183  sudo git clone https://github.com/sdim2016/voting-client.git
+  184  ls
+  185  sudo rm -rf voting-client/
+  186  sudo git clone https://github.com/sdim2016/voting-client.git
+  187  cd voting-client/
+  188  ls
+  189  sudo cp index.php ../index.php
+  190  ls
+  191  cd ..
+  192  ls
+  193  ls -ll
+  194  cd voting-client/
+  195  sudo cp login.php ../login.php
+  196  curl https://learn.xamk.fi/Shibboleth.sso/Login?target=https%3A%2F%2Flearn.xamk.fi/auth/shibboleth&entityID=https%3A%2F%2Fxidp.xamk.fi%2Fidp%2Fshibboleth
+  197  ls -ll
+  198  cd ..
+  199  sudo rm -rf *
+  200  ls
+  201  sudo git clone https://github.com/sdim2016/voting-client.git
+  202  ls
+  203  cd voting-client/
+  204  mv * ../
+  205  sudo mv * ../
+  206  ls
+  207  cd ..
+  208  ls
+  209  rm -rf voting-client/
+  210  sudo rm -rf voting-client/
+  211  cd /etc/php/
+  212  ls
+  213  cd 7.0/
+  214  ls
+  215  cd apache2/
+  216  ls
+  217  sudo nano php.ini
+  218  sudo systemctl php restart
+  219  sudo systemctl apache2 restart 
+  220  sudo systemctl restart apache2.service
+  221  sudo apt-get install php-curl
+  222  sudo systemctl restart apache2.service
+  223  cd /var/www/html/
+  224  ls
+  225  sudo nano update.sh
+  226  cd .
+  227  cd ..
+  228  cd html
+  229  sudo nano update.sh
+  230  sudo ./update.sh
+  231  ls -ll
+  232  chmod +x update.sh 
+  233  sudo chmod +x update.sh 
+  234  ls -ll
+  235  sudo ./update.sh 
+  236  ls -ll
+  237  sudo nano shib-cookie 
+  238  mv --help
+  239  sudo nano update.sh
+  240  sudo ./update.sh 
+  241  ls
+  242  sudo nano update.sh
+  243  sudo ./update.sh 
+  244  cp --help
+  245  sudo nano update.sh
+  246  sudo ./update.sh 
+  247  ls -ll
+  248  cd assets/
+  249  ls
+  250  ls -ll
+  251  cd bootstrap/
+  252  ls -ll
+  253  cd css
+  254  ls -ll
+  255  cd ...
+  256  cd ../../..
+  257  ls
+  258  sudo ./update.sh 
+  259  free -m
+  260  free --help
+  261  free -g
+  262  free -h
+  263  free -hw
+  264  cd /var/www/html
+  265  ls
+  266  sudo ./update.sh 
+  267  sudo certbot --apache
+  268  certbot certificates
+  269  sudo certbot certificate
+  270  sudo certbot certificates
+  271  certbot certonly --cert-name example.com -d example.com
+  272  sudo certbot certonly --cert-name bcvote.info -d bcvote.info,www.bcvote.info
+  273  sudo certbot certificates
+  274  cd /var/www/html/
+  275  ls
+  276  ls --help
+  277  ls -lal
+  278  cd /etc/apache2/
+  279  ls
+  280  cd sites-available/
+  281  ls
+  282  nano default-ssl.conf 
+  283  nano 000-default.conf 
+  284  sudo nano 000-default.conf 
+  285  sudo service restart apache2
+  286  history
+  287  sudo systemctl restart apache2.service
+  288  cd /var/ww/html
+  289  cd /var/www/html
+  290  sudo ./update.sh 
+  291  ls
+  292  ls -ll
+  293  cd /var/www
+  294  ls
+  295  cd html
+  296  ls
+  297  sudo ./update.sh
+  298  ls
+  299  ls -ll
+  300  logout
+  301  ls
+  302  cd /var/www/html/
+  303  ls
+  304  sudo ./update.sh 
+  305  logout
+  306  cd /var/www/html
+  307  sudo ./update.sh 
+  308  cd /var/www/html
+  309  sudo ./update.sh 
+  310  cd /var/www/html
+  311  sudo ./update.sh 
+  312  ls -ll
+  313  sudo ./update.sh 
+  314  ls -ll
+  315  cd inc/
+  316  ls
+  317  ls -ll
+  318  cd ..
+  319  sudo ./update.sh 
+  320  nano config.php
+  321  cd /var/www/html
+  322  sudo ./update.sh 
+  323  ls
+  324  nano config.php
+  325  nano update.sh 
+  326  cd /var/www/html
+  327  git status
+  328  ls
+  329  sudo ./update.sh 
+  330  logout
+  331  cd /var/www/html
+  332  vim config.php 
+  333  logout
+  334  sudo nano /etc/shibboleth/shibboleth2.xml
+  335  cd /etc/shibboleth/
+  336  ls
+  337  ls -ll
+  338  nano xamk_shibboleth2.xml 
+  339  nano shibboleth2.xml 
+  340  sudo cp ~/shibboleth2.xml shibboleth2.xml 
+  341  nano shibboleth2.xml 
+  342  history
+  343  curl --help
+  344  cd /etc/pki/tls/certs/
+  345  ls
+  346  sudo nano /etc/shibboleth/shibboleth2.xml
+  347  curl https://wiki.eduuni.fi/download/attachments/27297886/haka_testi_2018_sha2.crt?version=1&modificationDate=1525431417507&api=v2&download=true -o haka-test.crt
+  348  ls
+  349  curl -o haka-test.crt https://wiki.eduuni.fi/download/attachments/27297886/haka_testi_2018_sha2.crt?version=1&modificationDate=1525431417507&api=v2&download=true
+  350  ls
+  351  nano haka-test.crt 
+  352  sudo service shibd restart
+  353  sudo nano /etc/shibboleth/shibboleth2.xml
+  354  sudo service shibd restart
+  355  cd /var/log/shibboleth/
+  356  ls
+  357  nano shibd.log
+  358  tail shibd.log
+  359  tail shibd_warn.log 
+  360  tail transaction.log 
+  361  time
+  362  date
+  363  ntp
+  364  timedatectl status
+  365  sudo dpkg-reconfigure tzdata
+  366  timedatectl status
+  367  date
+  368  sudo service shibd restart
+  369  cd /var/www/html
+  370  ls
+  371  sudo ./update.sh 
+  372  curl http://54.166.246.251:3000/
+  373  ls
+  374  nano config.php 
+  375  free -m
+  376  logout
+  377  cd /var/www/html
+  378  sudo ./update.sh 
+  379  logout
+  380  ls
+  381  free -m
+  382  logout
+  383  history
+  384  history --help
+  385  history -anrw shib-hist.txt
+  386  history -anrw shibhist.txt
+  387  history -an shibhist.txt
+  388  history -n shibhist.txt
+  389  ls
+  390  ls -ll
+  391  history
+  392  history >> shib-hist.txt
