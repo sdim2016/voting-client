@@ -2,6 +2,7 @@
 $username = null;
 $password = null;
 include 'config.php';
+ini_set('error_reporting', E_ALL);
 
 function get_string_between($string, $start, $end){
     $string = ' ' . $string;
