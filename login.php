@@ -14,19 +14,9 @@ function get_string_between($string, $start, $end){
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     if(!empty($_POST["username"]) && !empty($_POST["password"])) {
       $username = $_POST["username"];
       $password = $_POST["password"];
-      $test_login = false;
-      if (array_key_exists($username, $accounts)) {
-        $pass_c = $accounts[$username];
-        $_SESSION["testt"] = $pass_c;
-        if ($password == $pass_c) {
-          $test_login = true;
-        }
-      }
-      if (!$test_login) {
       //Establish session with moodle:
       $url1 = 'https://moodle.xamk.fi/?lang=en';
       $ch = curl_init();
@@ -37,13 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       curl_setopt($ch, CURLOPT_COOKIEJAR, "shib-cookie");
       curl_setopt($ch, CURLOPT_COOKIESESSION, 1);
       curl_setopt($ch, CURLOPT_COOKIE, session_name() . '=' . session_id());
-
       //execute get
       $server_output = curl_exec($ch);
-
       //Obtain login token:
       $logintoken = get_string_between($server_output, '<input type="hidden" name="logintoken" value="', '"/><input class="btn xamk-login-button"');
-
       //Build POST request for authentication
       $url2 = "https://moodle.xamk.fi/login/index.php";
       $fields = array(
@@ -53,25 +40,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           'login'     =>  'Kirjaudu'
       );
       $fields_string = http_build_query($fields);
-
       curl_setopt($ch,CURLOPT_URL, $url2);
       curl_setopt($ch,CURLOPT_POST, true);
       curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
       curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
       curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-
       //execute post
       $result = curl_exec($ch);
-
       curl_close($ch);
-    }
-      if(strpos($result, 'Invalid login, please try again') !== false && !$test_login) {
+      if(strpos($result, 'Invalid login, please try again') !== false) {
         header("Location: login.php?m=2");
       } else {
-        if (!$test_login){
-        $name = get_string_between($result, '<span class="userbutton"><span class="usertext">', '</span><span class="avatars">');}
-        else{ $name = "Test User"; }
+        $name = get_string_between($result, '<span class="userbutton"><span class="usertext">', '</span><span class="avatars">');
         if (strlen($name) < 1) {
           header("Location: login.php?m=3");
         } else {
@@ -79,14 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION["authenticated"] = 'true';
             $_SESSION["username"] = $_POST["username"];
             $_SESSION["name"] = $name;
-
             //Obtaining our voter data from the blockchain
             // Get cURL resource
             $curl = curl_init();
             // Set some options - we are passing in a useragent too here
             curl_setopt_array($curl, [
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => 'http://54.166.246.251:3000/api/Voter?filter={"where":{"username":"'.$_SESSION["username"].'"}}',
+                CURLOPT_URL => 'http://54.166.246.251:3000/api/Voter?filter={"where":{"email":"'.$_SESSION["username"].'"}}',
             ]);
             // Send the request & save response to $resp
             $resp = curl_exec($curl);
@@ -95,38 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Decoded result:
             $json = json_decode($resp);
             if (!$json) {
-              $post = [
-                        'username' => $_SESSION['username'],
-                        'voted' => "false",
-                    ];
-              $headers = [
-                'Content-Type: application/json',
-                'Accept: application/json'
-              ];
-
-              $ch = curl_init('http://54.166.246.251:3000/api/Voter');
-              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-              curl_setopt($ch, CURLOPT_POST, 1);
-              curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
-              curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-              // execute!
-              $response = curl_exec($ch);
-              // close the connection, release resources used
-              curl_close($ch);
-
-              $_SESSION["test"]="You have logged in for the first time, we've added you to the blockchain!";
+              $_SESSION["test"]="You are not in the blockchain!";
             } else {
               $voted = var_export($json[0]->{'voted'}, true);
               $_SESSION["test"]="You are in the blockchain. Voted: ".$voted;
-
-
             }
-
-            unlink('shib-cookie');
             header('Location: index.php');
         }
       }
-
         // if(($username == 'user' && $password == 'password') || ($username == 'karhu' && $password == 'karjala')) {
         //     session_start();
         //     $_SESSION["authenticated"] = 'true';
@@ -136,12 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // else {
         //     header("Location: login.php?m=2");
         // }
-
     } else {
         header('Location: login.php');
     }
 } else {
 }
+
 ?>
 
 <html>
